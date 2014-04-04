@@ -127,7 +127,11 @@ class SortedDataNode(template.Node):
         self.context_var = context_var
 
     def need_python_sorting(self, queryset, ordering):
-        if ordering.find('__') >= 0:
+        if type(queryset) is list:
+            # If we already had to iterate on the queryet, we have a list
+            # => python sorting
+            return True
+        elif ordering.find('__') >= 0:
             # Python can't sort ordering with '__'
             return False
 
